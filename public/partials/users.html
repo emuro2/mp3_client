@@ -1,0 +1,30 @@
+<div >
+
+    <div class="row text-center">
+        <div class="text-center columns small-centered medium-centered large-centered">
+            <h3 class="left">Users:</h3>
+            <button ng-click="addUser()" class="button tiny success right">Add User</button>
+        </div>
+    </div>
+
+    <form>
+        <div class="row text-center">
+            <div class="columns small-centered medium-centered large-centered" >
+                <ol class="  small-block-grid-1 medium-block-grid-1 large-block-grid-1 block-height" >
+                    <li ng-repeat="user in users" id="{{user._id}}">
+                        <hr>
+                        <div class="left columns small-12 medium-12 large-6">
+                            <!--ng-href="#/users/:{{user._id}}"-->
+                            <a ng-click="details(user._id)"   >
+                                <h3 style="color:#007ba4" ng-bind="user.name | uppercase"></h3>
+                            </a>
+                        </div>
+                        <div class="right columns small-12 medium-12 large-2">
+                            <button ng-click="delete(user._id)" class="button tiny alert">Delete</button>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </form>
+</div>
