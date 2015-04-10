@@ -43,7 +43,7 @@
             <div class="assigned-user-field row">
                 <div class="columns small-6 small-centered medium-centered large-centered">
                     <label>Assigned User:
-                        <select id="select" ng-model="task.assignedUserName" ng-options="user.name for user in users">
+                        <select id="select" ng-model="task.assignedUserName" ng-options="user.name for user in users" ng-selected="task.assignedUserName">
                             <option value="">---Not Assigned---</option>
                         </select>
                     </label>

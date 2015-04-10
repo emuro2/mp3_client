@@ -257,26 +257,35 @@ Controllers.controller('TasksController', ['$scope','$http', '$location','$q', '
 
 
     $scope.delete = function(task){
-        var promises = [];
-        promises.push(TasksService.delete(task._id));
-        promises.push(UserDetailService.getByName(task.assignedUserName));
-        $q.all(promises)
-            .then(function(data){
-                var updateUser = data[1]["data"]["data"][0];
-                var promises=[];
-                angular.forEach(updateUser.pendingTasks, function(delTaskID){
-                    if (delTaskID === task._id.toString())
-                    {
-                        var index = updateUser.pendingTasks.indexOf(delTaskID);
-                         updateUser.pendingTasks.splice(index, 1);
-                    }
+
+        if(task.assignedUserName !== "unassigned"){
+            var promises = [];
+            promises.push(TasksService.delete(task._id));
+            promises.push(UserDetailService.getByName(task.assignedUserName));
+            $q.all(promises)
+                .then(function(data){
+                    var updateUser = data[1]["data"]["data"][0];
+                    var promises=[];
+                    angular.forEach(updateUser.pendingTasks, function(delTaskID){
+                        if (delTaskID === task._id.toString())
+                        {
+                            var index = updateUser.pendingTasks.indexOf(delTaskID);
+                            updateUser.pendingTasks.splice(index, 1);
+                        }
+                    });
+                    promises.push(UserDetailService.putUser(updateUser));
+                    return $q.all(promises);
+                })
+                .then(function(){
+                    $('#'+task._id).css("display","none");
                 });
-                promises.push(UserDetailService.putUser(updateUser));
-                return $q.all(promises);
-            })
-            .then(function(){
+        }
+        else{
+            TasksService.delete(task._id).success(function(){
                 $('#'+task._id).css("display","none");
             });
+        }
+
     };
 }]);
 
@@ -392,18 +401,16 @@ Controllers.controller('TaskAddController', ['$scope','$http', '$q','$location',
 }]);
 
 
-Controllers.controller('TaskEditController', ['$scope', '$location', 'TasksService','TaskShared','UsersService' , function($scope, $location, TasksService, TaskShared,UsersService) {
+Controllers.controller('TaskEditController', ['$timeout','$scope','$q', '$location', 'TasksService','TaskShared','UsersService','UserDetailService' , function($timeout,$scope,$q, $location, TasksService, TaskShared,UsersService,UserDetailService) {
     $scope.taskID = TaskShared.getTaskID();
     if (!$scope.taskID){
         $scope.taskID =$location.path().split("/")[2];
     }
 
-    var nameValid = false;
-    var deadlineValid = false;
+    var nameValid = true;
+    var deadlineValid = true;
 
-    UsersService.get().success(function(data){
-        $scope.users = data.data;
-    });
+
 
     var getTask = function(){
         return TasksService.getTask($scope.taskID).success(function(task){
@@ -415,18 +422,12 @@ Controllers.controller('TaskEditController', ['$scope', '$location', 'TasksServi
 
 
 
-    getTask().then(function(){
-        //console.log($scope.task.assignedUserName);
-        //$("#select").val($scope.task.assignedUserName);
-        //$("#select").label
-        ////$('#selectBox option').eq(3).prop('selected', true);
-        //$(document).ready(function(){
-        //    $("#select option").filter(function() {
-        //        if (this.text === $scope.task.assignedUserName)
-        //            console.log(this.text+" hello ");
-        //        return this.text === $scope.task.assignedUserName;
-        //    }).attr('selected', true);
-        //});
+    TasksService.getTask($scope.taskID)
+    .then(function(task){
+        $scope.task = task.data.data;
+        $scope.task.deadline = new Date($scope.task.deadline);
+        $scope.prevAssignedUserName = $scope.task.assignedUserName;
+
         $scope.$watch(
             function() {return $scope.task.name; },
             function(newValue, oldValue) {
@@ -461,29 +462,35 @@ Controllers.controller('TaskEditController', ['$scope', '$location', 'TasksServi
 
     });
 
+    UsersService.get()
+        .then(function(data){
+            $scope.users = data.data.data;
+        });
+
 
     $(".taskForm").submit(function(){
         if(deadlineValid && nameValid) {
             if ($scope.task.assignedUserName === "unassigned" || $scope.task.assignedUserName.length<1){
                 $scope.task.assignedUserName = "unassigned";
-                TasksService.post($scope.task).success(function(){
+                TasksService.put($scope.task).success(function(){
                     $(".response").css("display", "");
                     $(".response div").css("background-color", "#43AC6A");
-                    $(".response div h3").text("Added Task!");
+                    $(".response div h3").text("Task Updated!");
                 });
             }
             else {
-                $scope.task.assignedUser= $scope.task.assignedUserName["_id"];
-                $scope.task.assignedUserName= $scope.task.assignedUserName["name"];
+
+                $scope.task.assignedUserName= $scope.task.assignedUserName;
                 var promises = [];
                 var userID = "";
                 angular.forEach($scope.users, function(user){
                     if ($scope.task.assignedUserName === user.name) {
                         userID = user._id;
+                        $scope.task.assignedUser= user._id;
                     }
                 });
 
-                promises.push(TasksService.post($scope.task));
+                promises.push(TasksService.put($scope.task));
                 promises.push(UserDetailService.get(userID));
                 $q.all(promises)
                     .then(function(data){
@@ -496,7 +503,7 @@ Controllers.controller('TaskEditController', ['$scope', '$location', 'TasksServi
                     .then(function () {
                         $(".response").css("display", "");
                         $(".response div").css("background-color", "#43AC6A");
-                        $(".response div h3").text("Added Task!");
+                        $(".response div h3").text("Task Updated!");
                     },
                     function (data) {
                         $(".response").css("display", "");
@@ -506,6 +513,19 @@ Controllers.controller('TaskEditController', ['$scope', '$location', 'TasksServi
             }
         }
     });
+
+   $timeout(function(){
+       $("option:selected").removeAttr("selected")
+
+       $("#select option").filter(function() {
+
+           if (this.label === $scope.task.assignedUserName) {
+               return this;
+           }
+       }).prop('selected', true);
+
+   },250);
+
 
 }]);
 
