@@ -1,41 +1,69 @@
-<div class="row">
-    <div class="text-center columns small-centered medium-centered large-centered">
-        <h3 class="left">Edit Task:</h3>
-    </div>
-</div>
+<div>
 
-<div class="row ">
-    <div class="text-center columns small-centered medium-centered large-centered" >
-        <hr>
-        <div class="left columns small-12 medium-12 large-12">
-            <h3 ng-bind="task.name "></h3>
+    <div class="row">
+        <div class="text-center columns small-centered medium-centered large-centered">
+            <h3 class="left">Edit Task:</h3>
         </div>
     </div>
-</div>
-<div class="row ">
-    <div class="text-center columns small-centered medium-centered large-centered" >
+
+    <div class="row ">
         <hr>
-        <div class="left columns small-12 medium-12 large-12">
-            <h3>Assigned User:</h3>
-            <h3 ng-bind="task.assignedUserName | uppercase "></h3>
-        </div>
-    </div>
-</div>
-<div class="row ">
-    <div class="text-center columns small-centered medium-centered large-centered" >
-        <hr>
-        <div class="left columns small-12 medium-12 large-12">
-            <h3>Deadline:</h3>
-            <h3 ng-bind="task.deadline | date"></h3>
-        </div>
-    </div>
-</div>
-<div class="row ">
-    <div class="text-center columns small-centered medium-centered large-centered" >
-        <hr>
-        <div class="left columns small-12 medium-12 large-12">
-            <h3>Completed:</h3>
-            <h3 ng-bind="task.completed"></h3>
+        <form data-abide class="taskForm text-center columns small-centered medium-centered large-centered" novalidate>
+            <div class="name-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Name <medium style="color: #cc0000">*required</medium>:
+                        <input ng-model="task.name" type="text" required>
+                    </label>
+                    <div class="nameError text-center" style="display:none">
+                        <div style="background-color: #cc0000">
+                            <h3 style="color: #FFFFFF">Required!</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Description:
+                        <input ng-model="task.description" type="text" required>
+                    </label>
+                </div>
+            </div>
+            <div class="deadline-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Deadline <medium style="color: #cc0000">*required</medium>:
+                        <input ng-model="task.deadline" type="date" required>
+                    </label>
+                    <div class="deadlineError text-center" style="display:none">
+                        <div style="background-color: #cc0000">
+                            <h3 style="color: #FFFFFF">Required!</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="assigned-user-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Assigned User:
+                        <select id="select" ng-model="task.assignedUserName" ng-options="user.name for user in users">
+                            <option value="">---Not Assigned---</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="completed-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Completed:
+                        <input  type="radio" name="ascending" ng-model="task.completed" ng-value=true><label>Yes</label>
+                        <input type="radio" name="ascending" ng-model="task.completed" ng-value=false><label>No</label>
+                    </label>
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="response row text-center" style="display:none">
+            <div class="columns small-6 small-centered medium-centered large-centered">
+                <h3 style="color: #FFFFFF"></h3>
+            </div>
         </div>
     </div>
 </div>

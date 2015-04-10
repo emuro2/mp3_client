@@ -8,11 +8,11 @@
 
     <div class="row ">
         <hr>
-        <form data-abide class="userForm text-center columns small-centered medium-centered large-centered" novalidate>
+        <form data-abide class="taskForm text-center columns small-centered medium-centered large-centered" novalidate>
             <div class="name-field row">
                 <div class="columns small-6 small-centered medium-centered large-centered">
                     <label>Name <medium style="color: #cc0000">*required</medium>:
-                        <input ng-model="user.name" type="text" required>
+                        <input ng-model="task.name" type="text" required>
                     </label>
                     <div class="nameError text-center" >
                         <div style="background-color: #cc0000">
@@ -24,29 +24,27 @@
             <div class="description-field row">
                 <div class="columns small-6 small-centered medium-centered large-centered">
                     <label>Description:
-                        <input ng-model="user.email" type="text" required>
+                        <input ng-model="task.description" type="text" required>
                     </label>
                 </div>
             </div>
             <div class="deadline-field row">
                 <div class="columns small-6 small-centered medium-centered large-centered">
                     <label>Deadline <medium style="color: #cc0000">*required</medium>:
-                        <input ng-model="user.name" type="date" required>
+                        <input ng-model="task.deadline" type="date" required>
                     </label>
-                    <div class="nameError text-center" >
+                    <div class="deadlineError text-center" >
                         <div style="background-color: #cc0000">
                             <h3 style="color: #FFFFFF">Required!</h3>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="deadline-field row">
+            <div class="assigned-user-field row">
                 <div class="columns small-6 small-centered medium-centered large-centered">
                     <label>Assigned User:
-                        <select  ng-model="sortBy" >
-                            <option value="name">name</option>
-                            <option value="deadline">deadline</option>
-                            <option value="assignedUserName">assignedUserName</option>
+                        <select ng-model="task.assignedUserName" ng-options="user.name for user in users">
+                            <option value="">---Not Assigned---</option>
                         </select>
                     </label>
                 </div>

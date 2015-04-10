@@ -88,6 +88,12 @@ angular.module('Services', [])
                 var baseUrl = $window.sessionStorage.baseurl;
                 return $http.get(baseUrl + '/api/tasks/'+taskID);
             },
+            post : function (task) {
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.post(baseUrl + '/api/tasks', $.param(task),{
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
+                });
+            },
             put : function(task){
                 var baseUrl = $window.sessionStorage.baseurl;
                 return $http.put(baseUrl + '/api/tasks/'+task._id, $.param(task),{
