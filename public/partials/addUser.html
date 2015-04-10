@@ -1,4 +1,4 @@
-<div >
+<div>
 
     <div class="row">
         <div class="text-center columns small-centered medium-centered large-centered">
@@ -8,14 +8,18 @@
 
     <div class="row ">
         <hr>
-        <form data-abide class="userForm text-center columns small-centered medium-centered large-centered">
+        <form data-abide class="userForm text-center columns small-centered medium-centered large-centered" novalidate>
             <div class="name-field row">
                 <div class="columns small-6 small-centered medium-centered large-centered">
                     <label>Name <medium style="color: #cc0000">*required</medium>:<h6 ng-bind="user.name"></h6>
 
                         <input ng-model="user.name" type="text" required>
                     </label>
-                    <small class="error">Required!</small>
+                    <div class="nameError text-center" >
+                        <div style="background-color: #cc0000">
+                            <h3 style="color: #FFFFFF">Required!</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="email-field row">
@@ -23,16 +27,19 @@
                     <label>Email <medium style="color: #cc0000">*required</medium>:<h6 ng-bind="user.email"></h6>
                         <input ng-model="user.email" type="text" required>
                     </label>
-                    <small class="error">Required</small>
-
+                    <div class="emailError text-center" >
+                        <div style="background-color: #cc0000">
+                            <h3 style="color: #FFFFFF">Required!</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
             <button type="submit">Submit</button>
         </form>
 
-        <div class="success row text-center" style="display:none">
-            <div class="columns small-6 small-centered medium-centered large-centered" style="background-color: #43AC6A">
-                <h3 style="color: #FFFFFF">Successfully added user</h3>
+        <div class="response row text-center" style="display:none">
+            <div class="columns small-6 small-centered medium-centered large-centered">
+                <h3 style="color: #FFFFFF"></h3>
             </div>
         </div>
     </div>

@@ -55,7 +55,7 @@
                 <li ng-repeat="compTask in completedTasks" id="{{compTask._id}}">
                     <hr>
                     <div class="columns small-12 medium-12 large-5">
-                        <a ng-click="details()"   >
+                        <a ng-click="details(compTask._id)"   >
                             <h3 style="color:#007ba4" ng-bind="compTask.name"></h3>
                         </a>
                     </div>

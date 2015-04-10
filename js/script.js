@@ -14,3 +14,7 @@ function highlightThis(event) {
     alert(this.className);
     this.style.backgroundColor=backgroundColor;
 }
+
+$(document).ready(function(){
+    $(document).foundation();
+});

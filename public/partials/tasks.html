@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div>
+    <div class="row text-center">
+        <div class="text-center columns small-centered medium-centered large-centered">
+            <h3 class="left">Tasks:</h3>
+            <button ng-click="addTask()" class="button success right">Add Task</button>
+        </div>
+    </div>
+    <div class="row text-center" ng-model="query">
+        <div class="columns small-centered medium-centered large-centered small-3 medium-9 large-9">
+            <input type="radio" ng-click="updateQuery(0)" name="option" ng-model="option" value="pending"><label>Pending</label>
+            <input type="radio" ng-click="updateQuery(0)" name="option" ng-model="option" value="completed"><label>Completed</label>
+            <input type="radio" ng-click="updateQuery(0)" name="option" ng-model="option" value="all"><label>All</label>
+        </div>
+        <div class="columns small-centered medium-centered large-centered small-3 medium-4 large-6">
+            <select  ng-model="sortBy" >
+                <option value="name">name</option>
+                <option value="deadline">deadline</option>
+                <option value="assignedUserName">assignedUserName</option>
+            </select>
+        </div>
+        <div class="columns small-centered medium-centered large-centered small-3 medium-9 large-9">
+            <input  ng-click="updateQuery(0)" type="radio" name="ascending" ng-model="ascending" value="true"><label>Ascending</label>
+            <input  ng-click="updateQuery(0)" type="radio" name="ascending" ng-model="ascending" value="false"><label>Descending</label>
+        </div>
+    </div>
 
-</body>
-</html>
+    <form>
+        <div class="row text-center">
+            <div class="columns small-centered medium-centered large-centered" >
+                <button ng-click="pagination($event)" class="button disabled secondary round left" id="Previous">Previous</button>
+                <button ng-click="pagination($event)" class="button info round right" id="Next">Next</button>
+                <hr>
+                <ol class=" small-block-grid-1 medium-block-grid-1 large-block-grid-1 block-height" >
+                    <li ng-repeat="task in tasks" id="{{task._id}}">
+                        <div class="columns small-12 medium-12 large-6">
+                            <a ng-click="details(task._id)" >
+                                <h3 style="color:#007ba4" ng-bind="task.name"></h3>
+                            </a>
+                        </div>
+                        <div class="columns small-12 medium-12 large-2" >
+                            <h6>Deadline:</h6>
+                            <h6 ng-bind="task.deadline | date"></h6>
+                        </div>
+                        <div class="columns small-12 medium-12 large-2" >
+                            <h6>Assigned to:</h6>
+                            <h6 ng-bind="task.assignedUserName | uppercase"></h6>
+                        </div>
+                        <div class="right columns small-12 medium-12 large-2">
+                            <button ng-click="delete(task)" class="button tiny alert">Delete</button>
+                        </div>
+                        <hr>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </form>
+</div>

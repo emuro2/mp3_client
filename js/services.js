@@ -25,14 +25,20 @@ angular.module('Services', [])
             },
             post : function (newUser) {
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.post(baseUrl + '/api/users', newUser,{
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                return $http.post(baseUrl + '/api/users', $.param(newUser),{
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
+                });
+            },
+            getUserTasks : function(userID){
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.get(baseUrl + '/api/tasks?where={"assignedUser":"'+userID+"\"}");
+            },
+            putUserTask : function(task){
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.put(baseUrl + '/api/tasks/'+task._id, $.param(task),{
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
                 });
             }
-            //put : function (updateUser) {
-            //    var baseUrl = $window.sessionStorage.baseurl;
-            //    return $http.put(baseUrl + '/api/users', updateUser);
-            //}
         }
     })
     .factory('UserDetailService', function($http, $window){
@@ -40,6 +46,16 @@ angular.module('Services', [])
             get : function(userID) {
                 var baseUrl = $window.sessionStorage.baseurl;
                 return $http.get(baseUrl + '/api/users/'+userID);
+            },
+            getByName : function(userName){
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.get(baseUrl + '/api/users?where={"name":\"'+userName+"\"}");
+            },
+            putUser : function(user){
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.put(baseUrl + '/api/users/'+user._id, $.param(user),{
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
+                });
             }
         }
     })
@@ -64,9 +80,19 @@ angular.module('Services', [])
     })
     .factory('TasksService', function($http, $window){
         return{
+            get : function(query){
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.get(baseUrl + '/api/tasks'+query);
+            },
+            getTask : function(taskID){
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.get(baseUrl + '/api/tasks/'+taskID);
+            },
             put : function(task){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.put(baseUrl + '/api/tasks/'+task._id, task);
+                return $http.put(baseUrl + '/api/tasks/'+task._id, $.param(task),{
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
+                });
             },
             getByUser : function(userID){
                 var baseUrl = $window.sessionStorage.baseurl;
@@ -75,6 +101,10 @@ angular.module('Services', [])
             getCompTasksByUser : function(userID){
                 var baseUrl = $window.sessionStorage.baseurl;
                 return $http.get(baseUrl + '/api/tasks?where={"assignedUser":"'+userID+"\",\"completed\":true}");
+            },
+            delete : function (taskID) {
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.delete(baseUrl + '/api/tasks/'+taskID);
             }
         }
     });

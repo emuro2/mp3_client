@@ -23,15 +23,15 @@ TaskManagerApp.config(['$routeProvider', function($routeProvider) {
         }).
         when('/tasks/:id', {
             templateUrl: 'partials/taskDetails.html',
-            controller: 'TasksController'
+            controller: 'TaskDetailController'
         }).
-        when('/addTask/:id', {
+        when('/addTask', {
             templateUrl: 'partials/addTask.html',
-            controller: 'TasksController'
+            controller: 'TaskAddController'
         }).
         when('/editTask/:id', {
             templateUrl: 'partials/editTask.html',
-            controller: 'TasksController'
+            controller: 'TaskEditController'
         }).
         when('/settings', {
             templateUrl: 'partials/settings.html',

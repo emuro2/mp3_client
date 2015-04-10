@@ -1,10 +1,63 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div>
 
-</body>
-</html>
+    <div class="row">
+        <div class="text-center columns small-centered medium-centered large-centered">
+            <h3 class="left">Add Task:</h3>
+        </div>
+    </div>
+
+    <div class="row ">
+        <hr>
+        <form data-abide class="userForm text-center columns small-centered medium-centered large-centered" novalidate>
+            <div class="name-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Name <medium style="color: #cc0000">*required</medium>:
+                        <input ng-model="user.name" type="text" required>
+                    </label>
+                    <div class="nameError text-center" >
+                        <div style="background-color: #cc0000">
+                            <h3 style="color: #FFFFFF">Required!</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="description-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Description:
+                        <input ng-model="user.email" type="text" required>
+                    </label>
+                </div>
+            </div>
+            <div class="deadline-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Deadline <medium style="color: #cc0000">*required</medium>:
+                        <input ng-model="user.name" type="date" required>
+                    </label>
+                    <div class="nameError text-center" >
+                        <div style="background-color: #cc0000">
+                            <h3 style="color: #FFFFFF">Required!</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="deadline-field row">
+                <div class="columns small-6 small-centered medium-centered large-centered">
+                    <label>Assigned User:
+                        <select  ng-model="sortBy" >
+                            <option value="name">name</option>
+                            <option value="deadline">deadline</option>
+                            <option value="assignedUserName">assignedUserName</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="response row text-center" style="display:none">
+            <div class="columns small-6 small-centered medium-centered large-centered">
+                <h3 style="color: #FFFFFF"></h3>
+            </div>
+        </div>
+    </div>
+</div>
